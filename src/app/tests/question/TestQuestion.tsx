@@ -33,7 +33,7 @@ export const TestQuestion: React.FC<QuestionProps> = ({
         <div
             className={cn(
                 robotoslab.className,
-                "container mx-auto md:mt-3 p-4 shadow-md min-h-500 mb-10"
+                "container mx-auto md:mt-3 p-4 shadow-md min-h-[650px] mb-10"
             )}>
             <div className="flex gap-3 flex-row p-3 justify-between items-center">
                 <h1 className="text-2xl font-extrabold mr-3">
@@ -65,12 +65,12 @@ export const TestQuestion: React.FC<QuestionProps> = ({
                 <hr className="border border-xl mt-3 w-full"></hr>
                 <div className="flex col-span-2">
                     {questionType === "two-col-table" ? (
-                        <div className="grid grid-cols-2 mt-2 gap-5 font-light pr-10 pl-4 whitespace-pre text-pretty">
+                        <div className="grid grid-cols-2 mt-2 gap-5 font-light whitespace-pre text-xs md:text-lg justify-items-center text-pretty">
                             <p>{questionContent[0]}</p>
                             <p>{questionContent[1]}</p>
                         </div>
                     ) : (
-                        <div className="flex flex-col mt-2 gap-5 font-light pr-10 pl-4 whitespace-pre text-pretty">
+                        <div className="flex flex-col mt-2 gap-5 font-light whitespace-pre text-pretty">
                             <p>{questionContent}</p>
                         </div>
                     )}

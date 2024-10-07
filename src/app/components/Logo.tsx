@@ -38,8 +38,8 @@ export const Logo: React.FC<Props> = ({ className, iconSize }) => (
             </svg>
         </div>
         <div>
-            <h2 className="text-blue-800 text-4xl">Repetop</h2>
-            <h4 className="text-blue-400 text-sm">Только на 5+</h4>
+            <h2 className="text-blue-800 text-2xl sm:text-4xl">Repetop</h2>
+            <h4 className="text-blue-400 text-xs sm:text-sm">Только на 5+</h4>
         </div>
     </div>
 );

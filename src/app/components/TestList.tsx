@@ -79,7 +79,7 @@ const tests = [
 export const TestList: React.FC= () => {
   const testsList = tests;
     return (
-        <div className="flex flex-col gap-3 justify-between border rounded-xl p-3 mt-1">
+        <div className="flex flex-col gap-5 justify-between border rounded-xl p-1 md:p-3 mt-1">
             {tests.map((test) => (
                 <TestListView
                     key={test.name || test.theme}

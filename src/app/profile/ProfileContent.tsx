@@ -11,7 +11,7 @@ export const ProfileContent: React.FC<Props> = ({ children }) => {
         <div
             className={cn(
                 comforta.className,
-                "container mx-auto md:mt-3 px-4 py-12"
+                  "mx-auto px-1 md:px-6 py-12 border shadow-md text-xs sm:text-sm md:text-md lg:text-lg"
             )}>
             <h1 className="text-xl font-extrabold">Мои тесты</h1>
             {children}

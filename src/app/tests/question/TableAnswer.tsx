@@ -23,24 +23,23 @@ export const TableAnswer: React.FC<Props> = ({ answerNumber }) => {
         "П",
     ];
     return (
-        <div className="flex mt-[120px] justify-center">
-            <table className="border-4">
-                <tr>
-                    {Array.from({ length: answerNumber }).map((_, index) => (
-                        <th className="border-4">{letterAnswers[index]}</th>
-                    ))}
-                </tr>
-                <tr>
-                    {Array.from({ length: answerNumber }).map((_, index) => (
-                        <td className="border-4">
-                            <input
-                                className="text-center"
-                                id={`answer-${index + 1}`}
-                                name={`answer-${index + 1}`}></input>
-                        </td>
-                    ))}
-                </tr>
-            </table>
+        <div className="flex justify-center mt-[120px]">
+            <div
+                className={`grid grid-rows-2 grid-cols-${answerNumber} border-2 justify-items-center`}>
+                {Array.from({ length: answerNumber }).map((_, index) => (
+                    <div key={index}>
+                        <p>{letterAnswers[index]}</p>
+                    </div>
+                ))}
+                {Array.from({ length: answerNumber }).map((_, index) => (
+                    <div key={index}>
+                        <input
+                            className="text-center border-2 w-full"
+                            id={`answer-${index + 1}`}
+                            name={`answer-${index + 1}`}></input>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
