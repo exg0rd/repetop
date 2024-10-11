@@ -5,10 +5,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import TableAnswer from "./TableAnswer";
+import { CodeContent } from "./CodeContent";
 
 export interface QuestionProps {
     questionNumber: number;
     questionType: "default" | "code" | "two-col-table";
+    codeContent?: string;
     questionContent: string;
     answerNumber: number;
     imgURL: string;
@@ -22,6 +24,7 @@ export const TestQuestion: React.FC<QuestionProps> = ({
     questionNumber,
     questionType,
     questionContent,
+    codeContent,
     imgURL,
     totalQuestions,
     onNextQuestion,
@@ -50,12 +53,12 @@ export const TestQuestion: React.FC<QuestionProps> = ({
             </div>
             <hr className="border border-xl"></hr>
             <p className="mt-2 p-2 text-xl">{questionDescription}</p>
-            <div className="flex flex-col mt-3 gap-3 place-items-center">
+            <div className="flex flex-col gap-3 place-items-center">
                 {imgURL ? (
                     <div className="rounded-xl p-3 shadow-md">
                         {" "}
                         <img
-                            className="object-cover min-h-[200px] min-w-[200px]"
+                            className="object-fit min-h-[200px] min-w-[200px]"
                             src={imgURL}></img>{" "}
                     </div>
                 ) : (
@@ -69,6 +72,8 @@ export const TestQuestion: React.FC<QuestionProps> = ({
                             <p>{questionContent[0]}</p>
                             <p>{questionContent[1]}</p>
                         </div>
+                    ) : questionType === "code" ? (
+                        <CodeContent code={codeContent} />
                     ) : (
                         <div className="flex flex-col mt-2 gap-5 font-light whitespace-pre text-pretty">
                             <p>{questionContent}</p>

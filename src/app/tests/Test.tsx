@@ -5,6 +5,7 @@ import { Button } from "@/ui/button";
 
 interface Props {
     className?: string;
+    onStart: () => void;
 }
 
 const tests = [
@@ -22,7 +23,7 @@ const tests = [
     },
 ];
 
-export const Test: React.FC<Props> = ({ className }) => {
+export const Test: React.FC<Props> = ({ className, onStart }) => {
     return (
         <div
             className={cn(
@@ -60,7 +61,7 @@ export const Test: React.FC<Props> = ({ className }) => {
                         src="https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg"></img>
                 </div>
             </div>
-            <Button className="grow-0 my-6">Начать тест</Button>
+            <Button className="grow-0 my-6" onClick={onStart}>Начать тест</Button>
         </div>
     );
 };

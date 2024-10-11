@@ -1,4 +1,5 @@
 import './globals.css'
+import 'highlight.js/styles/github.css'
 
 import { Comfortaa, Roboto_Slab } from "next/font/google";
 
