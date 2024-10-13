@@ -1,14 +1,14 @@
 import React from "react";
-import { Header } from "../components/Header";
 import DashboardLayout from "./layout";
 import { DashboardContent } from "./DashboardContent";
+import { Header } from "../components/Header";
+import Students from "./StudentCard";
 
-export async function Dashboard() {
+export function Dashboard() {
     return (
         <DashboardLayout>
-            <Header />
-            <DashboardContent>
-            </DashboardContent>
+            <Header title="Личный кабинет преподавателя"/>
+            <DashboardContent><Students/></DashboardContent>
         </DashboardLayout>
     );
 }

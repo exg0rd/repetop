@@ -7,11 +7,11 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 import { Logo } from "./Logo";
 import { comforta } from "../layout";
 
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-export function Header() {
+export function Header({ title }) {
     const router = useRouter();
     const username = "Егор Дмитриевич Саяпин";
 
@@ -28,12 +28,25 @@ export function Header() {
 
     return (
         <header>
-            <div className="flex justify-between flex-wrap mt-5 mx-2 items-center p-5">
+            <div className="flex justify-between flex-wrap mt-4 mx-4 items-center p-8 bg-white rounded-xl shadow-md">
                 <Logo iconSize="64" />
+                <h1
+                    className={cn(
+                        comforta.className,
+                        "text-xl font-extrabold"
+                    )}>
+                    {title}
+                </h1>
                 <div className="flex gap-3 items-center">
                     <>
                         {useMediaQuery(`(min-width: 768px)`) ? (
-                            <p className={"text-xs shadow-md p-2 " + comforta.className}>{username}</p>
+                            <p
+                                className={
+                                    "text-xs p-2 " +
+                                    comforta.className
+                                }>
+                                {username}
+                            </p>
                         ) : (
                             <></>
                         )}

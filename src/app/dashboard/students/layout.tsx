@@ -4,8 +4,8 @@ interface DashboardLayoutProps {
     children?: React.ReactNode[];
 }
 
-export function StudentsLayout({ children }: DashboardLayoutProps) {
+export function DashboardLayout({ children }: DashboardLayoutProps) {
     return <div>{children}</div>;
 }
 
-export default StudentsLayout;
+export default DashboardLayout;

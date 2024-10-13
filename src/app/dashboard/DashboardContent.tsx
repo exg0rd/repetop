@@ -1,4 +1,5 @@
 import React from "react";
+import Students from "./StudentCard";
 import { cn } from "@/lib/utils";
 import { comforta } from "../layout";
 
@@ -6,15 +7,16 @@ interface Props {
     children: React.ReactElement;
 }
 
-export const DashboardContent: React.FC<Props> = ({ children }) => {
+export const DashboardContent: React.FC<Props> = () => {
     return (
         <div
             className={cn(
                 comforta.className,
-                "container mx-auto md:mt-3 px-4 py-12 border shadow-md"
+                "grid grid-cols-3 md:grid-cols-3 gap-4 mx-auto mx-4 my-4"
             )}>
-            <h1 className="text-xl font-extrabold">Управление тестами и базой заданий</h1>
-            {children}
+            <Students title={"Мои ученики"} />
+            <Students title={"Мои тесты"} />
+            <Students title={"Статистика"} />
         </div>
     );
 };
