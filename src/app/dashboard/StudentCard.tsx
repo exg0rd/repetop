@@ -28,9 +28,12 @@ export const StudentCard: React.FC<IStudentCardProps> = ({
     return (
         <div className="flex flex-col h-auto bg-white rounded-xl shadow-lg p-4 text-sm font-light transition-transform transform hover:scale-105">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                <div className="flex flex-col items-start gap-2">
                     <p className="text-xl font-bold">
-                        {name} {surname}
+                        {name}
+                    </p>
+                    <p className="text-xl font-bold">
+                       {surname}
                     </p>
                 </div>
                 <div className="text-right">
@@ -39,13 +42,13 @@ export const StudentCard: React.FC<IStudentCardProps> = ({
                 </div>
             </div>
             <hr className="my-2 border-gray-300" />
-            <div className="grid grid-cols-2 gap-4 p-2">
-                <div className="text-sm">
-                    <p className="font-bold">Контактные данные:</p>
+            <div className="grid grid-cols-2 gap-4 p-2 text-xs">
+                <div>
+                    <p className="font-bold mb-1">Контактные данные:</p>
                     <p>{phone}</p>
                 </div>
                 <div>
-                    <p className="font-bold">Родитель: {parentName}</p>
+                    <p className="font-bold mb-1">Родитель: {parentName}</p>
                     <p>{parentPhone}</p>
                 </div>
                 <div>
