@@ -29,12 +29,8 @@ export const StudentCard: React.FC<IStudentCardProps> = ({
         <div className="flex flex-col h-auto bg-white rounded-xl shadow-lg p-4 text-sm font-light transition-transform transform hover:scale-105">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
                 <div className="flex flex-col items-start gap-2">
-                    <p className="text-xl font-bold">
-                        {name}
-                    </p>
-                    <p className="text-xl font-bold">
-                       {surname}
-                    </p>
+                    <p className="text-xl font-bold">{name}</p>
+                    <p className="text-xl font-bold">{surname}</p>
                 </div>
                 <div className="text-right">
                     <p className="text-lg font-semibold">{grade} класс</p>
@@ -48,21 +44,22 @@ export const StudentCard: React.FC<IStudentCardProps> = ({
                     <p>{phone}</p>
                 </div>
                 <div>
-                    <p className="font-bold mb-1">Родитель: {parentName}</p>
+                    <p className="font-bold mb-1 min-h-[30px]">Родитель: {parentName}</p>
                     <p>{parentPhone}</p>
                 </div>
                 <div>
+                    <Link href={`students/${id}`}></Link>
                     <img
                         src={avatarUrl}
                         className="w-[128px] h-[128px] rounded-full object-cover mx-auto"
                     />
                 </div>
-                <div className="flex flex-col justify-items-center my-auto text-sm gap-3">
-                <Button>
-                        <Link href={`users/${id}/tests`}>Тесты</Link>
+                <div className="flex flex-col justify-items-center my-auto gap-3">
+                    <Button className="text-xs">
+                        <Link href={`students/${id}/tests`}>Тесты</Link>
                     </Button>
-                    <Button>
-                        <Link href={`users/${id}/stats`}>Статистика</Link>
+                    <Button className="text-xs">
+                        <Link href={`students/${id}/stats`}>Статистика</Link>
                     </Button>
                 </div>
             </div>

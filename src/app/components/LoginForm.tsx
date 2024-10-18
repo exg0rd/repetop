@@ -58,6 +58,7 @@ export const LoginForm: React.FC = () => {
             <Logo
                 iconSize="64"
                 className="my-8"
+                slogan={true}
             />
             <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
                 <AuthFormInput

@@ -89,7 +89,7 @@ export const StudentContent: React.FC<Props> = () => {
             <div className="bg-white rounded-xl shadow-md p-8 text-lg">
                 <div className="flex flex-row align-items-center justify-between">
                     <h1 className="font-extrabold text-2xl">Мои ученики</h1>
-                    <div className="rounded-xl p-2 border shadow-sm text-center text-sm relative">
+                    <div className="rounded-xl p-2 border shadow-sm text-center text-xs sm:text-sm relative">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <input
                             placeholder="Поиск ученика..."
@@ -98,7 +98,7 @@ export const StudentContent: React.FC<Props> = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid mx-auto my-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid mx-auto my-4 grid-cols-1 md:grid-cols-3 gap-4">
                 {DATA.map((student, index) => (
                     <StudentCard
                         key={index}
@@ -109,3 +109,5 @@ export const StudentContent: React.FC<Props> = () => {
         </div>
     );
 };
+
+export default StudentContent;

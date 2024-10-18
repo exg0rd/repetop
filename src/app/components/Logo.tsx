@@ -9,15 +9,16 @@ const bungeeFont = Bungee({
 interface Props {
     className?: string;
     iconSize?: string;
+    slogan: boolean;
 }
 
 import { cn } from "@/lib/utils";
 
-export const Logo: React.FC<Props> = ({ className, iconSize }) => (
+export const Logo: React.FC<Props> = ({ className, iconSize, slogan }) => (
     <div
         className={cn(
             bungeeFont.className,
-            "flex flex-wrap items-center gap-4"
+            className
         )}>
         <div className={className}>
             <svg
@@ -38,8 +39,18 @@ export const Logo: React.FC<Props> = ({ className, iconSize }) => (
             </svg>
         </div>
         <div>
-            <h2 className="text-blue-800 text-2xl sm:text-4xl">Repetop</h2>
-            <h4 className="text-blue-400 text-xs sm:text-sm">Только на 5+</h4>
+            {slogan ? (
+                <>
+                    <h2 className="text-blue-800 text-2xl sm:text-4xl">
+                        Repetop
+                    </h2>
+                    <h4 className="text-blue-400 text-xs sm:text-sm">
+                        Только на 5+
+                    </h4>
+                </>
+            ) : (
+                <></>
+            )}
         </div>
     </div>
 );
