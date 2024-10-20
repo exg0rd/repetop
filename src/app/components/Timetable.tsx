@@ -5,10 +5,62 @@ import React, { useState } from "react";
 
 import { comforta } from "@/app/layout";
 import { cn } from "@/lib/utils";
+import { TimetableEntry } from "./TimetableEntry";
 
 // берем занятие с 10:00 по 11:00
 // в каждом ряду проверяем при маппинге занятия по дню
 // если время ряда совпадает с началом или концом или лежит внутри закрашиваем
+
+const schedule = [
+    {
+        day: 2, // 1 - monday to 7 - sunday
+        start: 12,
+        end: 13,
+        description: "ОГЭ физика",
+        student: "Лиза",
+        id: "1",
+    },
+    {
+        day: 2, // 1 - monday to 7 - sunday
+        start: 13.5,
+        end: 14.5,
+        description: "ОГЭ информатика",
+        student: "Саша",
+        id: "1",
+    },
+    {
+        day: 3, // 1 - monday to 7 - sunday
+        start: 10.5,
+        end: 12,
+        description: "ОГЭ русский язык",
+        student: "Дима",
+        id: "2",
+    },
+    {
+        day: 4, // 1 - monday to 7 - sunday
+        start: 12,
+        end: 13,
+        description: "ОГЭ информатика",
+        student: "Антон",
+        id: "3",
+    },
+    {
+        day: 5, // 1 - monday to 7 - sunday
+        start: 18,
+        end: 19,
+        description: "ОГЭ английский язык",
+        student: "Таня",
+        id: "4",
+    },
+    {
+        day: 6, // 1 - monday to 7 - sunday
+        start: 20,
+        end: 21,
+        description: "ОГЭ химия",
+        student: "Маша",
+        id: "5",
+    },
+];
 
 export default function Timetable() {
     const [currentWeekStart, setCurrentWeekStart] = useState(
@@ -66,37 +118,42 @@ export default function Timetable() {
                     <ArrowRight />
                 </Button>
             </div>
-            <div className="border border-blue-300 bg-white p-2 grid grid-cols-8 mx-auto w-full font-semibold text-md text-center mt-4">
-                <div className="border-2 border-blue-700 flex items-center justify-center">
-                    <p>Время</p>
-                </div>
+            <div className="border rounded-full border-blue-400 bg-white grid grid-cols-8 mx-auto w-full font-semibold text-md text-center mt-4">
+                <p>Время</p>
                 {daysInWeek.map((day) => (
                     <div
                         key={day.toISOString()}
-                        className={`border-2 border-blue-700 py-4 ${
+                        className={`border-blue-400 ${
                             day.getDate() === currentDay
-                                ? "border-2 bg-blue-700 text-white"
+                                ? "bg-blue-400 text-white"
                                 : ""
                         }`}>
                         <p>
-                            {day.toLocaleString("ru-RU", { weekday: "short" })}
+                            {day.toLocaleString("ru-RU", {
+                                weekday: "short",
+                            })}
                         </p>
                         <p className="">{day.getDate()}</p>
                     </div>
                 ))}
+            </div>
+            <div className="border border-blue-400 bg-white grid grid-cols-8 mx-auto font-semibold text-md text-center mt-4">
                 {timeSlots.map((slot, index) => (
-                    <React.Fragment key={slot}>
-                        <div className={index % 2 === 0 ? "border-blue-300 flex items-center justify-center" : "bg-blue-700 text-white flex items-center justify-center"}>
-                            <p>{slot}</p>
-                        </div>
-
-                        {/* Dummy content for each day */}
-                        {daysInWeek.map(() => (
-                            <div className="flex items-center justify-center border-x border-blue-300">
-                                <p>task</p>
-                            </div>
+                    <>
+                        {" "}
+                        <p
+                            key={slot}
+                            className={`text-left p-1 col-start-1 ${
+                                index % 2 === 0
+                                    ? "bg-white"
+                                    : " bg-blue-400 text-white"
+                            }`}>
+                            {slot}
+                        </p>
+                        {schedule.map((lesson, index) => (
+                            <TimetableEntry {...lesson} />
                         ))}
-                    </React.Fragment>
+                    </>
                 ))}
             </div>
         </div>
