@@ -23,11 +23,17 @@ export const TimetableEntry: React.FC<Props> = ({
 }) => {
     const dayStart = 9;
 
+    function hourToString(hours: number) {
+        const fullHours = Math.floor(hours);
+        const minutes = Math.floor((hours - fullHours) * 60);
+        return `${fullHours}:${minutes > 0 ? minutes : '00'}`;
+    }
+
     return (
         <div
             className={cn(
                 className,
-                `flex flex-col text-white text-xs bg-green-300 border-2 border-dashed border-green-900`
+                `flex flex-col text-xs bg-green-300 border-2 border-dashed border-green-900`
             )}
             style={{
                 gridColumnStart: day + 1,
@@ -40,6 +46,9 @@ export const TimetableEntry: React.FC<Props> = ({
                 className="my-auto">
                 {description}
             </Link>
+            <p>
+                {hourToString(start)} - {hourToString(end)}
+            </p>
         </div>
     );
 };

@@ -127,7 +127,7 @@ body {
 
 .checkerbox {
   background-color: #e5e5f7;
-  opacity: 0.8;
-  background-image:  linear-gradient(#444cf7 1px, transparent 1px), linear-gradient(to right, #444cf7 1px, #ffffff 1px);
-  background-size: 20px 20px;
+opacity: 0.8;
+background-size: 20px 20px;
+background-image:  repeating-linear-gradient(0deg, #444cf7, #444cf7 1px, #e5e5f7 1px, #e5e5f7);
 }

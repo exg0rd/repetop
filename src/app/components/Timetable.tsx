@@ -137,19 +137,18 @@ export default function Timetable() {
                     </div>
                 ))}
             </div>
-            <div className="border border-blue-400 bg-white grid grid-cols-8 mx-auto font-semibold text-md text-center mt-4">
+            <div className="max-h-[400px] overflow-y-scroll border border-blue-400 bg-white grid grid-cols-8 mx-auto font-semibold text-md text-center mt-4">
                 {timeSlots.map((slot, index) => (
                     <>
-                        {" "}
-                        <p
-                            key={slot}
-                            className={`text-left p-1 col-start-1 ${
-                                index % 2 === 0
-                                    ? "bg-white"
-                                    : " bg-blue-400 text-white"
-                            }`}>
-                            {slot}
-                        </p>
+                        <div className="px-3 border col-start-1">
+                            <p
+                                key={slot}
+                                className={"text-left"}
+                                style={{ fontVariantNumeric: "tabular-nums" }}>
+                                {slot}
+                            </p>
+                        </div>
+
                         {schedule.map((lesson, index) => (
                             <TimetableEntry {...lesson} />
                         ))}
