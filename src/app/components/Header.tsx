@@ -4,14 +4,12 @@ import React from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Logo } from "./Logo";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/ui/button";
 import { AlignJustify } from "lucide-react";
 
 export function Header() {
-    const path = usePathname();
     const router = useRouter();
-    const username = "Егор Дмитриевич Саяпин";
 
     function CustomSidebarTrigger() {
         const { toggleSidebar } = useSidebar();
@@ -59,3 +57,7 @@ export function Header() {
         </header>
     );
 }
+function setIsMobile(arg0: boolean) {
+    throw new Error("Function not implemented.");
+}
+

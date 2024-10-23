@@ -10,44 +10,33 @@ interface Props {
     start: number;
     end: number;
     id: string;
+    style: React.CSSProperties;
+    duration: string;
 }
 
 export const TimetableEntry: React.FC<Props> = ({
     className,
-    start,
-    end,
     student,
     description,
-    day,
     id,
+    style,
+    duration
 }) => {
-    const dayStart = 9;
-
-    function hourToString(hours: number) {
-        const fullHours = Math.floor(hours);
-        const minutes = Math.floor((hours - fullHours) * 60);
-        return `${fullHours}:${minutes > 0 ? minutes : '00'}`;
-    }
-
     return (
         <div
             className={cn(
                 className,
-                `flex flex-col text-xs bg-green-300 border-2 border-dashed border-green-900`
+                `flex flex-col items-center flex-0 text-[8px] h-full bg-green-300 border-2 border-dashed border-green-900`
             )}
-            style={{
-                gridColumnStart: day + 1,
-                gridRowStart: 2 * (start - dayStart) + 1,
-                gridRowEnd: `span ${2 * (end - start) + 1}`,
-            }}>
-            <p className="my-auto">{student}</p>
+            style={style}>
+            <p>{student}</p>
             <Link
                 href={`/lessons/${id}`}
                 className="my-auto">
                 {description}
             </Link>
             <p>
-                {hourToString(start)} - {hourToString(end)}
+                {duration}
             </p>
         </div>
     );

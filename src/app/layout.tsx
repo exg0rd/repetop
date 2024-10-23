@@ -30,9 +30,9 @@ export default function RootLayout({
                 name="viewport"
                 content="width=device-width, initial-scale=1.0"></meta>
             <body className="bg-blue-100">
-                <SidebarProvider>
-                    <AppSidebar />
-                    <main className={"mx-auto min-h-screen w-full"}>
+                <SidebarProvider defaultOpen={false}>
+                    <AppSidebar/>
+                    <main className={"mx-0 lg:mx-32 min-h-screen w-full"}>
                         <Header />
                         {children}
                     </main>

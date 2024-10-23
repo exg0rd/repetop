@@ -6,14 +6,14 @@ import React, { useState } from "react";
 import { comforta } from "@/app/layout";
 import { cn } from "@/lib/utils";
 import { TimetableEntry } from "./TimetableEntry";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
-// берем занятие с 10:00 по 11:00
-// в каждом ряду проверяем при маппинге занятия по дню
-// если время ряда совпадает с началом или концом или лежит внутри закрашиваем
+// сделать выбор дня по клику для мобилки
+// рендерить занятия в рамках одного дня, фильтруя массив по дню недели и дополняя до ячеек пустыми дивами
 
 const schedule = [
     {
-        day: 2, // 1 - monday to 7 - sunday
+        day: 0, // 0 - monday to 6 - sunday
         start: 12,
         end: 13,
         description: "ОГЭ физика",
@@ -21,20 +21,36 @@ const schedule = [
         id: "1",
     },
     {
-        day: 2, // 1 - monday to 7 - sunday
+        day: 0, // 0 - monday to 6 - sunday
+        start: 13,
+        end: 14,
+        description: "ОГЭ физика",
+        student: "Лиза",
+        id: "2",
+    },
+    {
+        day: 0, // 0 - monday to 6 - sunday
+        start: 15,
+        end: 16,
+        description: "ОГЭ информатика",
+        student: "Лиза",
+        id: "2",
+    },
+    {
+        day: 1, // 1 - monday to 6 - sunday
         start: 13.5,
         end: 14.5,
         description: "ОГЭ информатика",
         student: "Саша",
-        id: "1",
+        id: "2",
     },
     {
-        day: 3, // 1 - monday to 7 - sunday
+        day: 2, // 0 - monday to 6 - sunday
         start: 10.5,
         end: 12,
         description: "ОГЭ русский язык",
         student: "Дима",
-        id: "2",
+        id: "3",
     },
     {
         day: 4, // 1 - monday to 7 - sunday
@@ -42,7 +58,7 @@ const schedule = [
         end: 13,
         description: "ОГЭ информатика",
         student: "Антон",
-        id: "3",
+        id: "4",
     },
     {
         day: 5, // 1 - monday to 7 - sunday
@@ -50,7 +66,7 @@ const schedule = [
         end: 19,
         description: "ОГЭ английский язык",
         student: "Таня",
-        id: "4",
+        id: "5",
     },
     {
         day: 6, // 1 - monday to 7 - sunday
@@ -58,7 +74,7 @@ const schedule = [
         end: 21,
         description: "ОГЭ химия",
         student: "Маша",
-        id: "5",
+        id: "6",
     },
 ];
 
@@ -67,10 +83,23 @@ export default function Timetable() {
         getStartOfWeek(new Date())
     );
     const [currentDay, setCurrentDay] = useState(new Date().getDate());
+    const isMobile = !useMediaQuery("(min-width: 768px)");
+
+    const filteredSchedule = schedule.filter((entry) => {
+        return currentWeekStart.getDate() + entry.day === currentDay;
+    });
+
+    const DAYSTART = 9;
+
+    function hourToString(hours: number) {
+        const fullHours = Math.floor(hours);
+        const minutes = Math.floor((hours - fullHours) * 60);
+        return `${fullHours}:${minutes > 0 ? minutes : "00"}`;
+    }
 
     function getStartOfWeek(date) {
         const day = date.getUTCDay(); // Получаем день недели (0 - воскресенье, 1 - понедельник и т.д.)
-        const diff = date.getDate() - day; // Разница между текущей датой и началом недели
+        const diff = date.getDate() - day + 1; // Разница между текущей датой и началом недели
         return new Date(date.setDate(diff)); // Возвращаем дату начала недели
     }
 
@@ -99,7 +128,7 @@ export default function Timetable() {
     }
 
     return (
-        <div className={cn(comforta.className, "container mx-auto p-4")}>
+        <div className={cn(comforta.className, "container mx-auto p-1")}>
             <div className="flex justify-between w-full">
                 <Button
                     onClick={prevWeek}
@@ -118,12 +147,13 @@ export default function Timetable() {
                     <ArrowRight />
                 </Button>
             </div>
-            <div className="border rounded-full border-blue-400 bg-white grid grid-cols-8 mx-auto w-full font-semibold text-md text-center mt-4">
-                <p>Время</p>
+            <div className="rounded-full bg-white grid grid-cols-7 md:grid-cols-8 mx-auto w-full font-semibold text-xs md:text-md text-center items-center mt-4">
+                {isMobile ? <></> : <p>Время</p>}
                 {daysInWeek.map((day) => (
                     <div
+                        onClick={() => setCurrentDay(day.getDate())}
                         key={day.toISOString()}
-                        className={`border-blue-400 ${
+                        className={`rounded-full ${
                             day.getDate() === currentDay
                                 ? "bg-blue-400 text-white"
                                 : ""
@@ -137,24 +167,78 @@ export default function Timetable() {
                     </div>
                 ))}
             </div>
-            <div className="max-h-[400px] overflow-y-scroll border border-blue-400 bg-white grid grid-cols-8 mx-auto font-semibold text-md text-center mt-4">
-                {timeSlots.map((slot, index) => (
-                    <>
-                        <div className="px-3 border col-start-1">
-                            <p
-                                key={slot}
-                                className={"text-left"}
-                                style={{ fontVariantNumeric: "tabular-nums" }}>
-                                {slot}
-                            </p>
-                        </div>
+            {isMobile ? (
+                <div className="bg-white flex flex-col gap-3 text-xs text-center mt-4">
+                    {filteredSchedule.map((lesson, index) => (
+                        <TimetableEntry
+                            key={index}
+                            style={{
+                                gridColumnStart: 2,
+                                gridColumnEnd: 4,
+                                gridRowStart: 2 * (lesson.start - DAYSTART) + 1,
+                                gridRowEnd: `span ${
+                                    2 * (lesson.end - lesson.start) + 1
+                                }`,
+                            }}
+                            {...lesson}
+                            duration={`${hourToString(
+                                lesson.start
+                            )} - ${hourToString(lesson.end)}`}
+                        />
+                    ))}
+                    {filteredSchedule.length === 0 ? (
+                        <p>Сегодня занятий нет</p>
+                    ) : (
+                        <></>
+                    )}
+                </div>
+            ) : (
+                <div className="overflow-y-scroll border border-blue-400 bg-white grid grid-flow-dense grid-cols-8 text-sm text-center mt-4">
+                    {timeSlots.map((slot) => (
+                        <>
+                            <div className="text-md px-3 border col-start-1">
+                                <p
+                                    key={slot}
+                                    className={"text-left"}
+                                    style={{
+                                        fontVariantNumeric: "tabular-nums",
+                                    }}>
+                                    {slot}
+                                </p>
+                            </div>
 
-                        {schedule.map((lesson, index) => (
-                            <TimetableEntry {...lesson} />
-                        ))}
-                    </>
-                ))}
-            </div>
+                            {schedule.map((lesson, index) => (
+                                <TimetableEntry
+                                    style={{
+                                        gridColumnStart: lesson.day + 1 + 1,
+                                        gridRowStart:
+                                            2 * (lesson.start - DAYSTART) + 1,
+                                        gridRowEnd: `span ${
+                                            2 * (lesson.end - lesson.start) + 1
+                                        }`,
+                                    }}
+                                    {...lesson}
+                                    duration={`${hourToString(
+                                        lesson.start
+                                    )} - ${hourToString(lesson.end)}`}
+                                />
+                            ))}
+                        </>
+                    ))}
+                    {Array.from(
+                        {
+                            length:
+                                timeSlots.length * daysInWeek.length -
+                                schedule.length,
+                        },
+                        (_, index) => (
+                            <div
+                                key={index}
+                                className="border"></div>
+                        )
+                    )}
+                </div>
+            )}
         </div>
     );
 }

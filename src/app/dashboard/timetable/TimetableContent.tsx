@@ -12,10 +12,19 @@ export const TimetableContent: React.FC<Props> = () => {
         <div className={cn(comforta.className, "mx-4 my-4")}>
             <div className="bg-white rounded-xl shadow-md p-8 text-lg">
                 <div className="flex flex-row align-items-center justify-between">
-                    <h1 className="font-extrabold text-2xl">
+                    <h1 className="font-extrabold text-md md:text-2xl">
                         Расписание занятий
                     </h1>
-                    <div className="rounded-xl p-2 border shadow-sm text-center text-xs sm:text-sm relative">
+                    {/* <input
+                        type="time"
+                        name="datestart-picker"
+                        id="datestart-picker"
+                        min="09:00"
+                        max="23:00"
+                        step="1800"
+                        required
+                    /> */}
+                    <div className="rounded-xl p-2 text-center text-xs md:text-sm relative">
                         <p>
                             {new Date().toLocaleDateString("ru", {
                                 dateStyle: "full",
@@ -24,7 +33,7 @@ export const TimetableContent: React.FC<Props> = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-white rounded-xl shadow-md p-8 my-4 text-lg">
+            <div className="bg-white rounded-xl shadow-md p-4 my-4 text-lg">
                 <Timetable />
             </div>
         </div>

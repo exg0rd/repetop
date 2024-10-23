@@ -1,3 +1,5 @@
+'use client'
+
 import {
     NotebookPen,
     PersonStanding,
@@ -14,6 +16,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from "@/components/ui/sidebar";
 import { comforta } from "../layout";
 
