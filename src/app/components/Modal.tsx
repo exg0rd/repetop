@@ -2,7 +2,7 @@ import React from "react";
 
 import { comforta } from "@/app/layout";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/button";
 import {
     Dialog,
     DialogContent,

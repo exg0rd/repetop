@@ -6,7 +6,7 @@ export function Timetable() {
     return (
         <DashboardLayout>
             <TimetableContent>
-                <p>Hello</p>>
+                <p>Hello</p>
             </TimetableContent>
         </DashboardLayout>
     );

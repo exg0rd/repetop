@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { comforta } from "@/app/layout";
 import { cn } from "@/lib/utils";
 import { TimetableEntry } from "./TimetableEntry";
-import { useMediaQuery } from "../hooks/useMediaQuery";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 // сделать выбор дня по клику для мобилки
 // рендерить занятия в рамках одного дня, фильтруя массив по дню недели и дополняя до ячеек пустыми дивами

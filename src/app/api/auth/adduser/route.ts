@@ -1,0 +1,50 @@
+'use server'
+
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import { NextResponse } from 'next/server';
+import { loginSessionSet } from '@/app/actions/actions';
+
+const prisma = new PrismaClient()
+
+export async function POST(req: any, res: any) {
+    if (req.method === 'POST') {
+
+        const data = await req.json();
+
+        const { username, email, role, password } = data;
+
+        try {
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    OR: [
+                        { email: email },
+                        { username: username }
+                    ]
+                }
+            });
+
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+            const newUser = await prisma.user.create({
+                data: {
+                    username: username,
+                    email: email,
+                    password: hashedPassword,
+                    role: role
+                }
+            })
+
+            const session = await loginSessionSet(newUser);
+            await prisma.$disconnect();
+            return NextResponse.json({username: username}, { status: 200});
+    
+        } catch (error) {
+            return NextResponse.json({errors: 'Имя или почта уже используется.'}, { status: 401});
+        }
+    
+    } else {
+        return NextResponse.json({error: 'METHOD UNALLOWED.'}, { status: 405});
+    }
+}

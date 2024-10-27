@@ -1,9 +1,10 @@
-import LoginPage from "./login/page";
+import { LoginForm } from "./components/LoginForm";
+import { ModalContainer } from "./components/ModalContainer";
 
 export default function Home() {
     return (
-        <>
-            <LoginPage/>
-        </>
+        <ModalContainer>
+            <LoginForm />
+        </ModalContainer>
     );
 }

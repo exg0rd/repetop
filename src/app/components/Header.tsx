@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useMediaQuery } from "../hooks/useMediaQuery";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Logo } from "./Logo";
 import { useRouter } from "next/navigation";
