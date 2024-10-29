@@ -1,17 +1,15 @@
 import React from "react";
-import { ProfileLayout } from "./layout";
-import { Header } from "../components/Header";
 import { ProfileContent } from "./ProfileContent";
 import { TestList } from "../components/TestList";
+import DashboardLayout from "../dashboard/students/layout";
 
 export async function Profile() {
     return (
-        <ProfileLayout>
-            <Header />
+        <DashboardLayout>
             <ProfileContent>
-               <TestList/>
+                <TestList />
             </ProfileContent>
-        </ProfileLayout>
+        </DashboardLayout>
     );
 }
 

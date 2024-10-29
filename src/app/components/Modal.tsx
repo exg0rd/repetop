@@ -31,7 +31,7 @@ export const Modal: React.FC<Props> = ({ open, onClose, children, title, formNam
             open={open}
             onOpenChange={handleClose}>
             <DialogContent
-                className={cn(comforta.className, "sm:max-w-[425px]")}>
+                className={cn(comforta.className, "sm:max-w-[425px] backdrop-blur-xl")}>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription></DialogDescription>

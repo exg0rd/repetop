@@ -127,7 +127,7 @@ export const StudentContent: React.FC<Props> = () => {
                 onClose={() => setOpenModal(false)}
                 title={"Новая задача"}
                 formName="todoform">
-               <p>Текст</p>
+               <p className="backdrop-blur-xl">Текст</p>
             </Modal>
         </div>
     );

@@ -5,9 +5,7 @@ import TimetableContent from "./TimetableContent";
 export function Timetable() {
     return (
         <DashboardLayout>
-            <TimetableContent>
-                <p>Hello</p>
-            </TimetableContent>
+            <TimetableContent/>
         </DashboardLayout>
     );
 }

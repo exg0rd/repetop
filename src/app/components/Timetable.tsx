@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { comforta } from "@/app/layout";
 import { cn } from "@/lib/utils";
 import { TimetableEntry } from "./TimetableEntry";
-import { useMediaQuery } from "../../hooks/useMediaQuery";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 // сделать выбор дня по клику для мобилки
 // рендерить занятия в рамках одного дня, фильтруя массив по дню недели и дополняя до ячеек пустыми дивами
@@ -193,7 +193,7 @@ export default function Timetable() {
                     )}
                 </div>
             ) : (
-                <div className="overflow-y-scroll border border-blue-400 bg-white grid grid-flow-dense grid-cols-8 text-sm text-center mt-4">
+                <div className="min-h-[100vh] border border-blue-400 bg-white grid grid-flow-dense grid-cols-8 text-sm text-center mt-4">
                     {timeSlots.map((slot) => (
                         <>
                             <div className="text-md px-3 border col-start-1">
@@ -228,8 +228,7 @@ export default function Timetable() {
                     {Array.from(
                         {
                             length:
-                                timeSlots.length * daysInWeek.length -
-                                schedule.length,
+                                (timeSlots.length - 1) * (daysInWeek.length) - schedule.reduce((acc, cur) => 2 * (cur.end - cur.start) + acc, 0)
                         },
                         (_, index) => (
                             <div

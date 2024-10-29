@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "iostream": "cpp"
-    }
+    },
+    "WillLuke.nextjs.hasPrompted": true
 }

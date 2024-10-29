@@ -10,9 +10,9 @@ interface Props {
 export const TimetableContent: React.FC<Props> = () => {
     return (
         <div className={cn(comforta.className, "mx-4 my-4")}>
-            <div className="bg-white rounded-xl shadow-md p-8 text-lg">
+            <div className="bg-white rounded-xl shadow-md p-4 text-lg">
                 <div className="flex flex-row align-items-center justify-between">
-                    <h1 className="font-extrabold text-md md:text-2xl">
+                <h1 className="font-extrabold text-xl text-center my-auto">
                         Расписание занятий
                     </h1>
                     {/* <input
