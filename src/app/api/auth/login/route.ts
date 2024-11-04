@@ -11,11 +11,11 @@ export async function POST(req: any, res: any) {
 
     if (req.method === "POST") {
         const body = await req.json();
-        const { username, password } = body;
+        const { email, password } = body;
 
         const existingUser = await prisma.user.findFirst({
             where: {
-                username: username,
+                email: email,
             },
         });
         if (
@@ -24,7 +24,7 @@ export async function POST(req: any, res: any) {
         ) {
             const session = await loginSessionSet(existingUser);
             await prisma.$disconnect();
-            return NextResponse.json({ username: username }, { status: 200 });
+            return NextResponse.json({ userId: existingUser.id }, { status: 200 });
         } else {
             return NextResponse.json(
                 { errors: "Неправильный логин или пароль" },

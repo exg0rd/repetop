@@ -22,6 +22,7 @@ export async function getSession(): Promise<Partial<SessionData>> {
         isLoggedIn: session.isLoggedIn,
         userId: session.userId,
         username: session.username,
+        role: session.role,
     };
 }
 

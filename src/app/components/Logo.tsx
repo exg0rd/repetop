@@ -41,12 +41,9 @@ export const Logo: React.FC<Props> = ({ className, iconSize, slogan }) => (
         <div>
             {slogan ? (
                 <>
-                    <h2 className="text-blue-800 text-2xl sm:text-4xl">
+                    <p className="text-blue-800 text-2xl sm:text-4xl">
                         Repetop
-                    </h2>
-                    <h4 className="text-blue-400 text-xs sm:text-sm">
-                        Только на 5+
-                    </h4>
+                    </p>
                 </>
             ) : (
                 <></>

@@ -32,7 +32,7 @@ export default function RootLayout({
             <body className="bg-blue-100">
                 <SidebarProvider defaultOpen={false}>
                     <AppSidebar/>
-                    <main className={"mx-0 lg:mx-32 min-h-screen w-full"}>
+                    <main className={"mx-0 lg:mx-16 xl:mx-32 min-h-screen w-full"}>
                         <Header />
                         {children}
                     </main>

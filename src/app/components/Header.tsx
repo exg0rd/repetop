@@ -40,10 +40,10 @@ export function Header() {
 
     return (
         <header>
-            <div className="grid grid-cols-3 mt-4 mx-4 items-center p-4 md:p-6 bg-white rounded-xl shadow-md">
+            <div className="grid grid-cols-3 mt-4 mx-4 items-center p-1 md:p-3 bg-white rounded-xl shadow-md">
                 <CustomSidebarTrigger />
                 <Logo
-                    iconSize={useMediaQuery("(min-width: 512px)") ? "64" : "48"}
+                    iconSize={"48"}
                     slogan={useMediaQuery("(min-width: 768px)")}
                     className="flex items-center mx-auto flex-row gap-3 col-start-2 col-end-2"
                 />
