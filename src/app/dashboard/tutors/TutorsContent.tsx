@@ -1,9 +1,18 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React from "react";
 import { cn } from "@/lib/utils";
 import { comforta } from "@/app/layout";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { ITutorCardProps, TutorCard } from "./TutorCard";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/ui/button";
+import { usePOST } from "@/hooks/usePOST";
 
 interface Props {
     children: React.ReactElement;
@@ -101,6 +110,26 @@ const DATA: ITutorCardProps[] = [
 ];
 
 export const TutorsContent: React.FC<Props> = () => {
+
+    const sortByFIO = (a, b) => {
+        if (a.surname < b.surname) return -1;
+        if (a.surname > b.surname) return 1;
+      
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+      
+        if (a.patronymic < b.patronymic) return -1;
+        if (a.patronymic > b.patronymic) return 1;
+      
+        return 0;
+    }
+
+    const { postRequest, res, isLoading, error } = usePOST({url: '/api/auth/invite', body: {}});
+
+    const onCreateInviteLink = async () => {
+        await post
+    }
+
     return (
         <div className={cn(comforta.className, "mx-auto mx-4 my-4")}>
             <div className="bg-white rounded-xl shadow-md p-4 text-sm md:text-md lg:text-lg">
@@ -116,9 +145,23 @@ export const TutorsContent: React.FC<Props> = () => {
                         />
                     </div>
                 </div>
+                
+            </div>
+            <div className="bg-white flex justify-items-center items-center gap-3 flex-row rounded-xl shadow-md p-6 text-lg mt-4">
+                <h2>Добавить</h2>
+                <Select>
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="light">Ученика</SelectItem>
+                        <SelectItem value="dark">Преподавателя</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Button><Plus/></Button>
             </div>
             <div className="grid mx-auto my-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {DATA.map((tutor, index) => (
+                {DATA.sort(sortByFIO).map((tutor, index) => (
                     <TutorCard
                         key={index}
                         {...DATA[index]}

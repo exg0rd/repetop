@@ -1,7 +1,6 @@
 import { addTutorSchema, LoginFormSchema } from "../../lib/definitions";
 
 export function loginValidate(formData: { email: string; password: string }) {
-    console.log('VALIDATE CALLED')
     const validatedFields = LoginFormSchema.safeParse({
         email: formData.email,
         password: formData.password,

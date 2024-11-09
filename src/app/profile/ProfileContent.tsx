@@ -5,10 +5,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import Modal from "../components/Modal";
 import { Edit, Mail, Phone, Plane, Plus, UserRound } from "lucide-react";
-import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { SubmitButton } from "../components/SubmitButton";
-import { error } from "console";
+import { usePOST } from "@/hooks/usePOST";
+import { useRouter } from "next/navigation";
 
 interface Props {
     children: React.ReactElement;
@@ -26,34 +25,31 @@ const TAGS = [
 ];
 
 export const ProfileContent: React.FC<Props> = ({ children }) => {
+    const router = useRouter();
+
     const [openModal, setOpenModal] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const { postRequest, res, isLoading, error } = usePOST<unknown, unknown>({
+        url: "/api/auth/logout",
+        body: {},
+    });
+
+    const [loading, setLoading] = useState(isLoading);
+
 
     const handleOpen = () => {
         setOpenModal(!openModal);
     };
 
     const handleLogout = async () => {
-        try {
-            const response = await fetch("/api/auth/logout", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({}),
-            });
-
-            if (response.ok) {
-                const responseBody = await response.json();
-                setLoading(false);
-                return;
-            } else {
-                const errorData = await response.json();
-                console.log(errorData)
-            }
-        } catch (error) {
-            console.error("Login error:", error);
-            setLoading(false);
-        }
-    }
+        setLoading(loading);
+        await postRequest({})
+            .then((resp) => {
+                router.push('/root');
+            })
+            .catch((error) => {
+                console.log(error, "is thrown");
+            })
+    };
 
     return (
         <div className={cn(comforta.className, "mx-auto mx-4 my-4")}>
@@ -71,8 +67,8 @@ export const ProfileContent: React.FC<Props> = ({ children }) => {
                         className="mr-3"
                         onClick={handleLogout}
                         loading={loading}
-                        form={''}
-                        >Выйти
+                        form={""}>
+                        Выйти
                     </SubmitButton>
                 </div>
             </div>
@@ -94,10 +90,7 @@ export const ProfileContent: React.FC<Props> = ({ children }) => {
                 </div>
                 <div className="rounded-xl bg-white flex flex-col ml-4 p-6 gap-2 text-sm shadow-md">
                     <span className="font-extrabold text-2xl">О себе</span>
-                    <p>
-                        ⭐ Студент N курса [REDACTED] кафедры
-                        "[REDACTED]"
-                    </p>
+                    <p>⭐ Студент N курса [REDACTED] кафедры "[REDACTED]"</p>
                     <p>⭐ Средний балл ЕГЭ 90</p>
                     <p>⭐ Frontend React разработчик</p>
                     <div className="mt-4 flex flex-row flex-wrap gap-3">

@@ -1,6 +1,6 @@
 import { Button } from "@/ui/button";
 import { Spinner } from "./Spinner";
-import React, { ReactNode, useState } from "react";
+import React from "react";
 
 
 interface Props { 
@@ -17,7 +17,7 @@ export const SubmitButton: React.FC<Props> = ({ className, children, loading, fo
             disabled={loading}
             type="submit"
             variant={"default"}
-            className={className}
+            className="bg-blue-700 text-sm"
             onClick={onClick}
             form={form}>
               {loading ? (

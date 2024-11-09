@@ -25,7 +25,6 @@ export const AuthFormInput = React.forwardRef<HTMLInputElement, AuthFormInputPro
                     ref={ref}
                     id={inputProps.id || inputProps.name}
                     name={inputProps.name}
-                    placeholder={description}
                     className="bg-gray-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-400 focus:border-blue-500 block w-full p-2.5"
                 />
                 {isStringArray(errorDescription) && errorDescription ? (

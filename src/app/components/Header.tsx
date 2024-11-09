@@ -4,12 +4,10 @@ import React from "react";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Logo } from "./Logo";
-import { useRouter } from "next/navigation";
 import { Button } from "@/ui/button";
 import { AlignJustify } from "lucide-react";
 
 export function Header() {
-    const router = useRouter();
     const page = 'profile';
 
 
@@ -26,25 +24,12 @@ export function Header() {
         );
     }
 
-    async function handleLogout() {
-        await fetch("/api/auth/logout", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username }),
-        });
-
-        if ((await fetch("/api/auth/session")).ok) {
-            router.push("/");
-        }
-    }
-
     return (
         <header>
             <div className="grid grid-cols-3 mt-4 mx-4 items-center p-1 md:p-3 bg-white rounded-xl shadow-md">
                 <CustomSidebarTrigger />
                 <Logo
                     iconSize={"48"}
-                    slogan={useMediaQuery("(min-width: 768px)")}
                     className="flex items-center mx-auto flex-row gap-3 col-start-2 col-end-2"
                 />
                 {page === "profile" ? (

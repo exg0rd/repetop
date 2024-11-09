@@ -31,7 +31,7 @@ export async function POST(req: any, res: any) {
                     name, surname, patronym, email, phone, password, role
                 }
             })
-            console.log(userData)
+            console.log({...userData, password: generatedPassword})
             return NextResponse.json({success: true, userData : {...userData, password: generatedPassword}}, { status: 200});
         } catch(error) {
             console.log(error);

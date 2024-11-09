@@ -29,14 +29,12 @@ export type FormState =
 
 export interface SessionData {
     userId?: number;
-    username?: string;
-    isLoggedIn: boolean;
-    role: string;
+    isLoggedIn?: boolean;
+    role?: string;
 }
 
 export const defaultSession: SessionData = {
-    isLoggedIn: false,
-    role: 'student',
+    isLoggedIn: false, 
 };
 
 export const sessionOptions: SessionOptions = {

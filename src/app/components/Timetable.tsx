@@ -99,7 +99,7 @@ export default function Timetable() {
 
     function getStartOfWeek(date) {
         const day = date.getUTCDay(); // Получаем день недели (0 - воскресенье, 1 - понедельник и т.д.)
-        const diff = date.getDate() - day + 1; // Разница между текущей датой и началом недели
+        const diff = date.getDate() - day; // Разница между текущей датой и началом недели
         return new Date(date.setDate(diff)); // Возвращаем дату начала недели
     }
 
@@ -155,7 +155,7 @@ export default function Timetable() {
                         key={day.toISOString()}
                         className={`rounded-full ${
                             day.getDate() === currentDay
-                                ? "bg-blue-400 text-white"
+                                ? "bg-blue-700 text-white"
                                 : ""
                         }`}>
                         <p>
@@ -193,7 +193,7 @@ export default function Timetable() {
                     )}
                 </div>
             ) : (
-                <div className="min-h-[100vh] border border-blue-400 bg-white grid grid-flow-dense grid-cols-8 text-sm text-center mt-4">
+                <div className="max-h-[400px] overflow-y-scroll border border-blue-400 bg-white grid grid-flow-dense grid-cols-8 text-sm text-center mt-4">
                     {timeSlots.map((slot) => (
                         <>
                             <div className="text-md px-3 border col-start-1">

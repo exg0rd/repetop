@@ -26,7 +26,7 @@ export const TimetableEntry: React.FC<Props> = ({
         <div
             className={cn(
                 className,
-                `flex flex-col items-center flex-0 text-[8px] h-full bg-green-300 border-2 border-dashed border-green-900`
+                `flex flex-col items-center flex-0 text-[8px] h-full bg-blue-300 border-2 border-dashed border-blue-900`
             )}
             style={style}>
             <p>{student}</p>

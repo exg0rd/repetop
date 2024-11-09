@@ -13,7 +13,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         );
     } else {
         return NextResponse.json(
-            { errors: "Failed to logout" },
+            { errors: "Произошла неизвестная ошибка" },
             { status: 401 }
         );
     }

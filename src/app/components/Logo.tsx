@@ -14,12 +14,8 @@ interface Props {
 
 import { cn } from "@/lib/utils";
 
-export const Logo: React.FC<Props> = ({ className, iconSize, slogan }) => (
-    <div
-        className={cn(
-            bungeeFont.className,
-            className
-        )}>
+export const Logo: React.FC<Props> = ({ className, iconSize }) => (
+    <div className={cn(bungeeFont.className, className)}>
         <div className={className}>
             <svg
                 viewBox="0 0 16 16"
@@ -39,15 +35,7 @@ export const Logo: React.FC<Props> = ({ className, iconSize, slogan }) => (
             </svg>
         </div>
         <div>
-            {slogan ? (
-                <>
-                    <p className="text-blue-800 text-2xl sm:text-4xl">
-                        Repetop
-                    </p>
-                </>
-            ) : (
-                <></>
-            )}
+            <p className="text-blue-800 text-2xl sm:text-4xl hidden md:block">Repetop</p>
         </div>
     </div>
 );

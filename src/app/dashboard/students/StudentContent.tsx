@@ -97,9 +97,9 @@ export const StudentContent: React.FC<Props> = () => {
 
     return (
         <div className={cn(comforta.className, "mx-auto mx-4 my-4")}>
-            <div className="bg-white rounded-xl shadow-md p-8 text-lg">
-                <div className="flex flex-row align-items-center justify-between">
-                    <h1 className="font-extrabold text-2xl">Мои ученики</h1>
+            <div className="bg-white rounded-xl shadow-md p-4 text-lg">
+                <div className="flex flex-row flex-wrap align-items-center justify-between">
+                    <h1 className="font-extrabold">Мои ученики</h1>
 
                     <Button className="ml-auto mr-3" onClick={handleOpen}>
                         <Plus />
