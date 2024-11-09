@@ -7,25 +7,18 @@ interface Props {
     className?: string;
     children?: React.ReactNode;
     loading: any;
-    onClick: () => void;
     form: string;
-    onSubmit: () => void;
+    onClick?: () => void;
 }
 
-export const SubmitButton: React.FC<Props> = ({ className, children, loading, onClick, onSubmit, form }) => {
-
-    const handleClick = () => {
-        onSubmit()
-        onClick();
-    }
-
+export const SubmitButton: React.FC<Props> = ({ className, children, loading, form, onClick }) => {
     return (
         <Button
-            disabled={loading === true}
+            disabled={loading}
             type="submit"
             variant={"default"}
             className={className}
-            onClick={handleClick}
+            onClick={onClick}
             form={form}>
               {loading ? (
                 <>

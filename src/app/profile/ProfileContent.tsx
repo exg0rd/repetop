@@ -7,6 +7,8 @@ import Modal from "../components/Modal";
 import { Edit, Mail, Phone, Plane, Plus, UserRound } from "lucide-react";
 import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { SubmitButton } from "../components/SubmitButton";
+import { error } from "console";
 
 interface Props {
     children: React.ReactElement;
@@ -25,10 +27,33 @@ const TAGS = [
 
 export const ProfileContent: React.FC<Props> = ({ children }) => {
     const [openModal, setOpenModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleOpen = () => {
         setOpenModal(!openModal);
     };
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/auth/logout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({}),
+            });
+
+            if (response.ok) {
+                const responseBody = await response.json();
+                setLoading(false);
+                return;
+            } else {
+                const errorData = await response.json();
+                console.log(errorData)
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            setLoading(false);
+        }
+    }
 
     return (
         <div className={cn(comforta.className, "mx-auto mx-4 my-4")}>
@@ -37,21 +62,18 @@ export const ProfileContent: React.FC<Props> = ({ children }) => {
                     <h1 className="font-extrabold text-xl text-center my-auto">
                         Профиль
                     </h1>
-
-                    <Button
-                        className="ml-auto mr-3"
-                        variant={"destructive"}>
-                        <Plus />{" "}
-                        <Link href="/dashboard/add">
-                            {" "}
-                            Добавить преподавателя
-                        </Link>
-                    </Button>
                     <Button
                         className="mr-3"
                         onClick={handleOpen}>
                         <Edit />
                     </Button>
+                    <SubmitButton
+                        className="mr-3"
+                        onClick={handleLogout}
+                        loading={loading}
+                        form={''}
+                        >Выйти
+                    </SubmitButton>
                 </div>
             </div>
             <div className="my-4 text-lg grid grid-cols-3">

@@ -12,3 +12,18 @@ export async function login(state: FormState, formData: FormData) {
     }
   }
 }
+
+export const genRandomString = () => {
+  const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
+  const NUMBERS = '0123456789';
+  const LENGTH = 8;
+
+  const PASSSWORD = [];
+
+  for (let i = 0; i < LENGTH; i++) {
+      PASSSWORD.push(i % 2 === 0 ? NUMBERS[Math.floor(Math.random() * NUMBERS.length)] : LETTERS[Math.floor(Math.random() * LETTERS.length)])
+  }
+  
+  return PASSSWORD.join('');
+
+}

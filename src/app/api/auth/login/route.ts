@@ -14,6 +14,9 @@ export async function POST(req: any, res: any) {
         const { email, password } = body;
 
         const existingUser = await prisma.user.findFirst({
+            omit: {
+                password: true,
+            },
             where: {
                 email: email,
             },
@@ -24,8 +27,9 @@ export async function POST(req: any, res: any) {
         ) {
             const session = await loginSessionSet(existingUser);
             await prisma.$disconnect();
-            return NextResponse.json({ userId: existingUser.id }, { status: 200 });
+            return NextResponse.json({ user: existingUser }, { status: 200 });
         } else {
+            console.log(password, await bcrypt.hash(password, 10))
             return NextResponse.json(
                 { errors: "Неправильный логин или пароль" },
                 { status: 401 }

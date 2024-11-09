@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { loginValidate } from "../validation/auth";
 
 type LoginFormInputs = {
-    username: string;
+    email: string;
     password: string;
 };
 
@@ -16,7 +16,7 @@ export const LoginForm: React.FC = () => {
     const router = useRouter();
 
     const [formErrors, setFormErrors] = useState<{
-        username?: string;
+        email?: string;
         password?: string;
     }>({});
     const [loading, setLoading] = useState(false);
@@ -26,22 +26,24 @@ export const LoginForm: React.FC = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<LoginFormInputs>({
-        defaultValues: {
-            username: "",
-            password: "",
-        },
+        defaultValues: {},
         mode: "onSubmit",
     });
+
+    let validationResult;
+
+    // document.addEventListener('submit', (event) => console.log('FORM SUBMITTED'));
 
     const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
         setLoading(true);
 
         console.log("form submitted with", data);
 
-        const { username, password, errors } = loginValidate(data);
-        console.log(errors);
+        validationResult = loginValidate(data);
+        console.log(validationResult.errors);
+        console.log(errors)
 
-        if (errors) {
+        if (!validationResult.isValid) {
             setFormErrors({
                 ...formErrors,
                 password: "Что - то пошло не так. Попробуйте войти еще раз.",
@@ -50,11 +52,13 @@ export const LoginForm: React.FC = () => {
             return;
         }
 
+        const { email, password } = validationResult.data ?? {};
+
         try {
             const response = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
@@ -92,33 +96,35 @@ export const LoginForm: React.FC = () => {
             />
             <form
                 className="space-y-4"
-                onSubmit={handleSubmit(onSubmit)}>
+                method="post"
+                onSubmit={handleSubmit(onSubmit)}
+                id="loginform">
                 <AuthFormInput
-                    type="username"
-                    description="Имя пользователя"
+                    type="email"
+                    description="Почта"
                     errorDescription={
-                        formErrors.username ||
-                        (errors.username && "Это поле обязательно")
+                        formErrors.email ||
+                        (validationResult?.errors?.username && "Это поле обязательно")
                     }
-                    {...register("username", { required: true, maxLength: 20 })}
-                    aria-invalid={!!errors.username || !!formErrors.username}
+                    {...register("email", { required: true, maxLength: 256 })}
                 />
                 <AuthFormInput
                     type="password"
                     description="Пароль"
                     errorDescription={
                         formErrors.password ||
-                        (errors.password && "Это поле обязательно")
+                        (validationResult?.errors?.password && "Это поле обязательно")
                     }
-                    {...register("password", { required: true, maxLength: 20 })}
-                    aria-invalid={!!errors.password}
+                    {...register("password", { required: true, maxLength: 256 })}
                 />
                 <SubmitButton
                     loading={loading}
-                    className="bg-blue-700 text-sm">
+                    form={"loginform"}>
                     Войти
                 </SubmitButton>
             </form>
         </>
     );
 };
+
+export default LoginForm;

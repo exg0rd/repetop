@@ -27,11 +27,6 @@ export async function getSession(): Promise<Partial<SessionData>> {
 }
 
 export async function loginSessionSet(user: User): Promise<void> {
-    const session = await getIronSession<SessionData>(
-        cookies(),
-        sessionOptions
-    );
-
     try {
         const session = await getIronSession<SessionData>(
             cookies(),

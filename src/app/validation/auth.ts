@@ -1,19 +1,20 @@
 import { addTutorSchema, LoginFormSchema } from "../../lib/definitions";
 
-export function loginValidate(formData: { username: string; password: string }) {
+export function loginValidate(formData: { email: string; password: string }) {
+    console.log('VALIDATE CALLED')
     const validatedFields = LoginFormSchema.safeParse({
-        username: formData.username,
+        email: formData.email,
         password: formData.password,
     });
 
     if (!validatedFields.success) {
         return {
+            isValid: false,
             errors: validatedFields.error.flatten().fieldErrors,
         };
     }
 
-    const { username, password } = validatedFields.data;
-    return { username, password };
+    return { isValid: true, data: validatedFields.data };
 }
 
 export function addTutorValidate(formData: {name: string; surname: string; patronym: string; email: string; phone: string;}) {
@@ -27,10 +28,10 @@ export function addTutorValidate(formData: {name: string; surname: string; patro
 
     if (!validatedFields.success) {
         return {
+            isValid: false,
             errors: validatedFields.error.flatten().fieldErrors,
         }
     }
 
-    const {name, surname, patronym, email, phone} = validatedFields.data;
-    return {name, surname, patronym, email, phone}
+    return {isValid: true, data: validatedFields.data}
 }

@@ -2,8 +2,8 @@ import { z } from "zod";
 import { SessionOptions } from "iron-session";
 
 export const LoginFormSchema = z.object({
-    username: z.string().emoji().trim().min(6),
-    password: z.string().emoji().trim().min(8),
+    email: z.string().email().trim().email(),
+    password: z.string().trim().min(8),
 });
 
 const phoneRegex = new RegExp(
@@ -11,9 +11,9 @@ const phoneRegex = new RegExp(
 );
 
 export const addTutorSchema = z.object({
-    name: z.string().trim().emoji().min(3),
-    surname: z.string().trim().emoji().min(3),
-    patronym: z.string().trim().emoji().min(3),
+    name: z.string().trim().min(3),
+    surname: z.string().trim().min(3),
+    patronym: z.string().trim().min(3),
     email: z.string().trim().email(),
     phone: z.string().trim().regex(phoneRegex, 'Введите корректный номер телефона!')
 });

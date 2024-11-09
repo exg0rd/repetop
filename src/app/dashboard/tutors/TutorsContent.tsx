@@ -2,13 +2,8 @@
 import React, { FormEvent, useState } from "react";
 import { cn } from "@/lib/utils";
 import { comforta } from "@/app/layout";
-import { Plus, Search } from "lucide-react";
-import { Button } from "@/ui/button";
-import Modal from "@/app/components/Modal";
+import { Search } from "lucide-react";
 import { ITutorCardProps, TutorCard } from "./TutorCard";
-import { Input } from "@/components/ui/input";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { addTutorValidate } from "@/app/validation/auth";
 
 interface Props {
     children: React.ReactElement;
@@ -105,95 +100,7 @@ const DATA: ITutorCardProps[] = [
     },
 ];
 
-type AddTutorFormInputs = {
-    name: string;
-    surname: string;
-    patronym: string;
-    email: string;
-    phone: string;
-};
-
 export const TutorsContent: React.FC<Props> = () => {
-    const [openModal, setOpenModal] = useState(false);
-    const [loading, setLoading] = useState(false);
-
-    const [formErrors, setFormErrors] = useState<{
-        name?: string;
-        surname?: string;
-        patronym?: string;
-        email?: string;
-        phone?: string;
-    }>({});
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<AddTutorFormInputs>({
-        defaultValues: {
-            name: "Имя",
-            surname: "Фамилия",
-            patronym: "Отчество",
-            email: "primer@mail.ru",
-            phone: "+7(111)111-11-11",
-        },
-        mode: "onSubmit",
-    });
-
-    // вынести инпуты в отдельный компонент нахуй
-
-    const onSubmit: SubmitHandler<AddTutorFormInputs> = async (data) => {
-        setLoading(true);
-
-        const { name, surname, patronym, email, phone } =
-            addTutorValidate(data);
-
-        console.log(data);
-        console.log(errors, errors == true);
-        if (errors) {
-            setFormErrors({
-                ...formErrors,
-            });
-            setLoading(false);
-            return;
-        }
-
-        try {
-            const response = await fetch("/api/tutors/add", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, surname, patronym, email, phone }),
-            });
-
-            if (response.ok) {
-                const responseBody = await response.json();
-                return <div>{responseBody.password}</div>;
-            } else {
-                const errorData = await response.json();
-                handleServerResponse(errorData);
-            }
-        } catch (error) {
-            console.error("Login error:", error);
-            setLoading(false);
-            setFormErrors({
-                ...formErrors,
-            });
-        }
-    };
-
-    function handleServerResponse(errorData: any) {
-        setLoading(false);
-        setFormErrors({
-            ...formErrors,
-            phone:
-                errorData.errors.phone || "Такой репетитор уже есть в системе.",
-        });
-    }
-
-    const handleOpen = () => {
-        setOpenModal(!openModal);
-    };
-
     return (
         <div className={cn(comforta.className, "mx-auto mx-4 my-4")}>
             <div className="bg-white rounded-xl shadow-md p-4 text-sm md:text-md lg:text-lg">
@@ -201,13 +108,6 @@ export const TutorsContent: React.FC<Props> = () => {
                     <p className="text-center font-extrabold">
                         Преподаватели проекта
                     </p>
-
-                    <Button
-                        className="ml-auto"
-                        onClick={handleOpen}>
-                        <Plus />
-                    </Button>
-
                     <div className="rounded-xl p-3 border shadow-sm text-center text-xs sm:text-sm relative w-full">
                         <Search className="absolute text-sm left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <input
@@ -225,50 +125,6 @@ export const TutorsContent: React.FC<Props> = () => {
                     />
                 ))}
             </div>
-            <Modal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                title={"Добавление нового преподавателя"}
-                formName="addtutorform"
-                submitTitle="Добавить">
-                <form
-                    method="post"
-                    className="flex flex-col gap-3"
-                    id="addtutorform"
-                    onSubmit={handleSubmit(onSubmit)}>
-                    <div>
-                        <label>Фамилия</label>
-                        <Input {...register("surname", {required: true, maxLength: 64})}/>
-                        <p>{formErrors.surname ||
-                        (errors.surname && "Это поле обязательно")}</p>
-                    </div>
-                    <div>
-                        <label>Имя</label>
-                        <Input {...register("name", {required: true, maxLength: 64})}/>
-                        <p>{formErrors.name ||
-                        (errors.name && "Это поле обязательно")}</p>
-                    </div>
-                    <div>
-                        <label>Отчество</label>
-                        <Input {...register("patronym", {required: true, maxLength: 64})}/>
-                        <p>{formErrors.patronym ||
-                        (errors.patronym && "Это поле обязательно")}</p>
-                    </div>
-
-                    <div>
-                        <label>Почта</label>
-                        <Input {...register("email", {required: true})}/>
-                        <p>{formErrors.email ||
-                        (errors.email && "Это поле обязательно")}</p>
-                    </div>
-                    <div>
-                        <label>Телефон</label>
-                        <Input type="tel" {...register("phone", {required: true})}/>
-                        <p>{formErrors.phone ||
-                        (errors.phone && "Это поле обязательно")}</p>
-                    </div>
-                </form>
-            </Modal>
         </div>
     );
 };
