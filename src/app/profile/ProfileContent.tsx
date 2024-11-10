@@ -33,6 +33,8 @@ export const ProfileContent: React.FC<Props> = ({ children }) => {
         body: {},
     });
 
+    
+
     const [loading, setLoading] = useState(isLoading);
 
 

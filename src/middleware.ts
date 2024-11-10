@@ -14,7 +14,11 @@ export default async function middleware(req: NextRequest) {
     const session = await getSession();
 
     // 4. Redirect to /login if the user is not authenticated
-    if (!session?.userId && path !== '/') {
+
+    if (path.startsWith('/invite')) {
+        return;
+    }
+    if (!session?.userId && path !== "/") {
         return NextResponse.redirect(new URL("/", req.nextUrl));
     }
 

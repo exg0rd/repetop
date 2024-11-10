@@ -12,15 +12,12 @@ export async function POST(req: any, res: any) {
 
         const data = await req.json();
 
-        const { username, email, role, password } = data;
+        const { name, surname, patronym, password, email, phone, INVITE_LINK } = data;
 
         try {
-            const existingUser = await prisma.user.findFirst({
+            const inviteLinkInDB = await prisma.invite.findFirst({
                 where: {
-                    OR: [
-                        { email: email },
-                        { username: username }
-                    ]
+                   link: INVITE_LINK,
                 }
             });
 
@@ -29,19 +26,27 @@ export async function POST(req: any, res: any) {
 
             const newUser = await prisma.user.create({
                 data: {
-                    username: username,
+                    name: name,
+                    surname: surname,
+                    patronym: patronym,
                     email: email,
                     password: hashedPassword,
-                    role: role
+                    role: inviteLinkInDB?.userRole,
+                    phone: phone,
                 }
             })
 
             const session = await loginSessionSet(newUser);
+            await prisma.invite.delete({
+                where: {
+                    link: inviteLinkInDB?.link,
+                }
+            })
             await prisma.$disconnect();
-            return NextResponse.json({username: username}, { status: 200});
+            return NextResponse.json({success: true}, { status: 200});
     
         } catch (error) {
-            return NextResponse.json({errors: 'Имя или почта уже используется.'}, { status: 401});
+            return NextResponse.json({errors: error}, { status: 401});
         }
     
     } else {

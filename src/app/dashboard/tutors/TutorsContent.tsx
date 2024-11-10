@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { comforta } from "@/app/layout";
 import { Plus, Search } from "lucide-react";
@@ -111,6 +111,10 @@ const DATA: ITutorCardProps[] = [
 
 export const TutorsContent: React.FC<Props> = () => {
 
+    const INVITE_URL_SCHEME = `${process.env.API_URL}/invite/`;
+
+    const [inviteLink, setInviteLink] = useState('');
+
     const sortByFIO = (a, b) => {
         if (a.surname < b.surname) return -1;
         if (a.surname > b.surname) return 1;
@@ -127,8 +131,14 @@ export const TutorsContent: React.FC<Props> = () => {
     const { postRequest, res, isLoading, error } = usePOST({url: '/api/auth/invite', body: {}});
 
     const onCreateInviteLink = async () => {
-        await post
+        await postRequest({});
     }
+
+    useEffect(() => {
+        if (res && res.inviteLink) {
+            setInviteLink(INVITE_URL_SCHEME + res.inviteLink);
+        }
+    }, [res]);
 
     return (
         <div className={cn(comforta.className, "mx-auto mx-4 my-4")}>
@@ -158,7 +168,8 @@ export const TutorsContent: React.FC<Props> = () => {
                         <SelectItem value="dark">Преподавателя</SelectItem>
                     </SelectContent>
                 </Select>
-                <Button><Plus/></Button>
+                <Button onClick={onCreateInviteLink}><Plus/></Button>
+                <p>{inviteLink}</p>
             </div>
             <div className="grid mx-auto my-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {DATA.sort(sortByFIO).map((tutor, index) => (

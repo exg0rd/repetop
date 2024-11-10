@@ -7,16 +7,53 @@ export const LoginFormSchema = z.object({
 });
 
 const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+    /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
-export const addTutorSchema = z.object({
-    name: z.string().trim().min(3),
-    surname: z.string().trim().min(3),
-    patronym: z.string().trim().min(3),
-    email: z.string().trim().email(),
-    phone: z.string().trim().regex(phoneRegex, 'Введите корректный номер телефона!')
-});
+export const inviteFormValidateSchema = z
+    .object({
+        name: z
+            .string()
+            .trim()
+            .min(2, { message: "Имя не может быть короче 2 букв" }),
+        surname: z
+            .string()
+            .trim()
+            .min(2, { message: "Фамилия не может быть короче 2 букв" }),
+        patronym: z.string().trim(),
+        email: z.string().trim().email(),
+        phone: z
+            .string()
+            .trim()
+            .regex(phoneRegex, "Введите корректный номер телефона!"),
+        password: z
+            .string()
+            .trim()
+            .min(8, { message: "Пароль должен быть не короче 8 символов" })
+            .regex(/[A-Z]/, {
+                message: "Пароль должен содержать 1 заглавную букву",
+            })
+            .regex(/[a-z]/, {
+                message: "Пароль должен содержать 1 прописную букву",
+            })
+            .regex(/[0-9]/, {
+                message: "Пароль должен содержать цифру",
+            })
+            .regex(/[^A-Za-z0-9]/, {
+                message: "Пароль должен содержать специальный символ",
+            }),
+
+        repeatpassword: z.string().trim(),
+    })
+    .superRefine(({ repeatpassword, password }, ctx) => {
+        if (repeatpassword !== password) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Пароли не совпадают",
+                path: ["password"],
+            });
+        }
+    });
 
 export type FormState =
     | {
@@ -34,7 +71,7 @@ export interface SessionData {
 }
 
 export const defaultSession: SessionData = {
-    isLoggedIn: false, 
+    isLoggedIn: false,
 };
 
 export const sessionOptions: SessionOptions = {

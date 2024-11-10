@@ -24,3 +24,14 @@ model User {
   phone String
   role String
 }
+
+model Invite {
+  id          Int      @id @default(autoincrement())
+  link        String   @unique
+  createdAt   DateTime @default(now())
+  createdById Int
+  userRole String
+
+  @@index([link])
+}
+

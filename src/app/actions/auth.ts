@@ -13,10 +13,9 @@ export async function login(state: FormState, formData: FormData) {
   }
 }
 
-export const genRandomString = () => {
+export const genRandomString = (LENGTH: number) => {
   const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
   const NUMBERS = '0123456789';
-  const LENGTH = 8;
 
   const PASSSWORD = [];
 

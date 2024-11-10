@@ -24,7 +24,7 @@ export async function POST(req: any, res: any) {
         }
         try {
             const role = 'tutor' // fix
-            const generatedPassword = genRandomString();
+            const generatedPassword = genRandomString(8);
             const password = await bcrypt.hash(generatedPassword, 10);
             const userData = await prisma.user.create({
                 data: {

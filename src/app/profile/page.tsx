@@ -3,7 +3,7 @@ import { ProfileContent } from "./ProfileContent";
 import { TestList } from "../components/TestList";
 import DashboardLayout from "../dashboard/students/layout";
 
-export async function Profile() {
+export function Profile() {
     return (
         <DashboardLayout>
             <ProfileContent>
