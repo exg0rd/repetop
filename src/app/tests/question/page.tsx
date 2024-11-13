@@ -27,7 +27,6 @@ const TestPage: React.FC = () => {
 
     return (
         <QuestionLayout>
-            <Header />
             {questionIndex === 0 ? (
                 <Test onStart={() => setQuestionIndex(questionIndex + 1)}/>
             ) : (
