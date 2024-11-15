@@ -9,55 +9,137 @@ import AnswerComponent from "./AnswerComponent";
 2) ЕСЛИ ОТВЕТ РАЗВЕРНУТЫЙ ТО ОСТАВИТЬ ПОМЕТКУ ВЕРНОГО ИЛИ ВЕРНЫХ В ЗАВИСИМОСТИ ОТ КОНДИЦИЙ
 СОБСТВЕННО ДА В РАЗВЕРНУТОМ ОТВЕТЕ БУДЕТ ПОЛЕ ДЛЯ ВВОДА А ИНАЧЕ ПРОСТО ТЕКСТ ВАРИАНТА ОТВЕТА*/
 
-export const TestQuestionCreate: React.FC = () => {
-    const [preview, setPreview] = useState(false);
-    const [taskContent, setTaskContent] = useState("");
-    const [resizeHeight, setResizeHeight] = useState(100);
-    const [answerNumber, setAnswerNumber] = useState(0);
+type questionState = {
+    index: number;
+    preview: boolean;
+
+    taskContent: string;
+    textAreaHeight: number;
+    
+    answerNumber: number;
+    multipleAnswers: boolean;
+    inputAnswers: boolean;
+
+    answerTexts: string[];
+}
+
+export const TestQuestionCreate: React.FC = ({nextQuestionIndex}) => {
+    // const [preview, setPreview] = useState(false);
+    // const [taskContent, setTaskContent] = useState("");
+    // const [resizeHeight, setResizeHeight] = useState(100);
+    // const [answerNumber, setAnswerNumber] = useState(0);
+    // const [selectStateOne, setSelectStateOne] = useState('');
+    // const [selectStateTwo, setSelectStateTwo] = useState('');
+    // const [answerTexts, setAnswerTexts] = useState([]);
+
+    const [questionState, setQuestionState] = useState({
+        index: nextQuestionIndex,
+        preview: false,
+        taskContent: '',
+        textAreaHeight: 100,
+        answerNumber: 0,
+        multipleAnswers: false,
+        inputAnswers: false,
+        answerTexts: []
+    });
+
+    const updateTaskContent = (content: string) => {
+        setQuestionState(prevState => ({
+            ...prevState,
+            taskContent: textareaRef?.current.value,
+        }));
+    };
+    
+    const togglePreview = () => {
+        setQuestionState(prevState => ({
+            ...prevState,
+            preview: !prevState.preview
+        }));
+    };
+
+    const updateTextAreaHeight = (height: number) => {
+        setQuestionState(prevState => ({
+            ...prevState,
+            textAreaHeight: height
+        }));
+    };
+
+    const updateAnswerNumber = (number: string) => {
+        setQuestionState(prevState => ({
+            ...prevState,
+            answerNumber: Number(number),
+            answerTexts: Array(Number(number)).fill(""),
+        }));
+    };
+
+    const toggleMultipleAnswers = () => {
+        const variant = selectTypeRef.current?.value;
+
+        setQuestionState(prevState => ({
+            ...prevState,
+            multipleAnswers: variant === 'SINGLE' ? false : true,
+        }));
+    };
+
+    const toggleInputAnswers = () => {
+        const variant = selectAnswerInputTypeRef.current?.value;
+        setQuestionState(prevState => ({
+            ...prevState,
+            inputAnswers: variant === 'SELECT' ? false : true,
+        }));
+    };
+
+    const updateAnswerText = (index: number, value: string) => {
+        setQuestionState(prevState => ({
+            ...prevState,
+            answerTexts: prevState.answerTexts.map((text, i) => i === index ? value : text)
+        }));
+    };
+    
+
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const selectRef = useRef<HTMLSelectElement>(null);
+    const selectTypeRef = useRef<HTMLSelectElement>(null);
+    const selectAnswerInputTypeRef = useRef<HTMLSelectElement>(null);
+    const answerNumberRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         window.MathJax.typeset();
-    }, [preview]);
+    }, [questionState.preview]);
 
     useEffect(() => {
         if (textareaRef.current) {
-            textareaRef.current.style.scrollHeight = `${resizeHeight}px`;
+            textareaRef.current.style.scrollHeight = `${questionState.textAreaHeight}px`;
         }
-    }, [resizeHeight]);
+    }, [questionState.textAreaHeight]);
 
     const handleInputChange = (e) => {
-        setTaskContent(e.target.value);
+        updateTaskContent(e.target.value);
     };
 
     const handleChangeToPreview = () => {
-        if (!preview) {
-            setTaskContent(textareaRef.current.value);
-            setResizeHeight(textareaRef.current?.scrollHeight);
+        if (!questionState.preview) {
+            updateTaskContent(textareaRef.current.value);
+            updateTextAreaHeight(textareaRef.current?.scrollHeight);
         }
 
-        setPreview(!preview);
-    };
-
-    const handleAddAnswers = (e) => {
-        alert(e.target.value);
-        setAnswerNumber(Number(e.target.value));
+        togglePreview();
     };
 
     const memoizedAnswerComponents = React.useMemo(
         () =>
-            Array(answerNumber)
-                .fill(0)
-                .map((_, index) => (
+            Array(questionState.answerNumber)
+                .fill('')
+                .map((_, index) => ( !questionState.preview ? 
                     <AnswerComponent
                         key={index}
-                        variant={"RADIO"}
-                        answerText=""
-                        index={index + 1}
-                    />
-                )),
-        [answerNumber]
+                        areMultipleCorrect={questionState.multipleAnswers}
+                        isInputAnswer={questionState.inputAnswers}
+                        answerText={questionState.answerTexts[index]}
+                        index={index}
+                        setText={(value) => updateAnswerText(index, value)}
+                    /> : <p key={index}>{index+1 + ')'} {questionState.answerTexts[index]}</p>
+                )), 
+        [questionState.preview, questionState.multipleAnswers, questionState.inputAnswers, questionState.answerNumber]
     );
 
     return (
@@ -67,23 +149,23 @@ export const TestQuestionCreate: React.FC = () => {
                 "m-4 text-sm md:text-md lg:text-lg min-h-screen"
             )}>
             <div className="bg-white rounded-xl shadow-md p-4 text-lg font-extrabold">
-                Вопрос 1
+                Вопрос {questionState.index}
             </div>
             <div className="flex flex-col gap-3 bg-white rounded-xl shadow-md p-4 mt-4 text-left h-full">
                 <h1 className="font-bold text-blue-600 mr-3">Условие: </h1>
-                {preview ? (
-                    <div className="w-full">{taskContent}</div>
+                {questionState.preview ? (
+                    <div className="w-full">{questionState.taskContent}</div>
                 ) : (
                     <textarea
                         ref={textareaRef}
                         className="border border-black w-full resize-y"
-                        value={taskContent}
-                        style={{ height: resizeHeight }}
+                        value={questionState.taskContent}
+                        style={{ height: questionState.textAreaHeight }}
                         onChange={handleInputChange}
                     />
                 )}
                 <div className="flex flex-col gap-3 mt-3">
-                    <div className="flex flex-row gap-3">
+                    <div className="flex flex-row gap-3 items-center">
                         <div>
                             <p className="font-bold text-blue-600">
                                 Вариантов ответа:
@@ -93,33 +175,36 @@ export const TestQuestionCreate: React.FC = () => {
                                 type="number"
                                 min={1}
                                 max={99}
-                                onChange={handleAddAnswers}
+                                ref={answerNumberRef}
+                                inputMode="numeric"
+                                onChange={(e) => updateAnswerNumber(e.target.value)}
                             />
                         </div>
                         <div>
                             <p className="font-bold text-blue-600">
                                 Тип ответов:{" "}
                             </p>
-                            <select ref={selectRef}>
+                            <select ref={selectTypeRef} onChange={toggleMultipleAnswers}>
                                 <option
-                                    value={"Один вариант"}
-                                    id="RADIO">
+                                    value={"SINGLE"}
+                                    >
                                     Один ответ
                                 </option>
                                 <option
-                                    value={"Множественный выбор"}
-                                    id="CHECKBOX">
+                                    value={"MULTIPLE"}
+                                    >
                                     Множественный выбор
                                 </option>
+                            </select>
+                            <select ref={selectAnswerInputTypeRef} onChange={toggleInputAnswers}>
                                 <option
-                                    value={"Развернутый ответ"}
-                                    id="INPUT">
-                                    Развёрнутый ответ
+                                    value={"SELECT"}
+                                    >
+                                    Выбор ответа
                                 </option>
                                 <option
-                                    value={"Сопоставление"}
-                                    id="MATCH">
-                                    Сопоставление
+                                    value={"INPUT"}>
+                                    Ввод ответа
                                 </option>
                             </select>
                         </div>
@@ -145,7 +230,7 @@ export const TestQuestionCreate: React.FC = () => {
                                 className="w-[200px]"
                             />
                         </div>
-                            <form className="w-full border border-gray-200 flex flex-col gap-3 p-4 resize rounded-xl resize-both">{memoizedAnswerComponents}</form>
+                            <form className="w-full border border-gray-200 flex flex-col gap-3 p-4 resize rounded-xl resize-both">{questionState.answerNumber > 0 && memoizedAnswerComponents}</form>
                     </div>
                 </div>
 

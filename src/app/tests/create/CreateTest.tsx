@@ -28,7 +28,11 @@ interface Props {
 export const Test: React.FC<Props> = ({ className }) => {
     const [questionIndex, setQuestionIndex] = useState(0);
 
-    if (questionIndex > 1) return <TestQuestionCreate/>
+    const handleContinueCreatingTest = () => {
+        setQuestionIndex(questionIndex + 1);
+    }
+
+    if (questionIndex > 0) return <TestQuestionCreate nextQuestionIndex={questionIndex}/>
     return (
         <div
             className={cn(
@@ -69,7 +73,7 @@ export const Test: React.FC<Props> = ({ className }) => {
                     </div>
                 </div>
 
-                <Button className="w-fit" onClick={() => setQuestionIndex(questionIndex + 1)}>Продолжить создание теста</Button>
+                <Button className="w-fit" onClick={handleContinueCreatingTest}>Продолжить создание теста</Button>
             </div>
         </div>
     );
