@@ -1,5 +1,6 @@
-'use client'
+"use client";
 import React, { useState } from "react";
+import { EditableMathField } from "react-mathquill";
 
 interface Props {
     className?: string;
@@ -8,50 +9,63 @@ interface Props {
     answerText: string;
     index: number;
     setText: any;
+    updateCorrectAnswer: (number) => void;
+    active: boolean;
 }
 
 export const AnswerComponent: React.FC<Props> = ({
     className,
     answerText,
     areMultipleCorrect,
-    isInputAnswer,
     index,
     setText,
+    updateCorrectAnswer,
+    active,
+    isInputAnswer,
 }) => {
+    const [currentInput, setCurrentInput] = useState(answerText ?? "");
+    const [checked, setChecked] = useState(active);
 
-    const [currentInput, setCurrentInput] = useState(answerText);
+    const handleInputChange = (mathfield) => {
+        setCurrentInput(mathfield.latex());
+        setText(mathfield.latex());
+    };
 
-    const handleInputChange = (e) => {
-        setCurrentInput(e.target.value);
-        console.log(e.target.value, index)
-        setText(e.target.value);
-    }
+    const handleCorrectChange = () => {
+        setChecked(!checked);
+        updateCorrectAnswer(index);
+    };
 
     return (
-        <div className="flex flex-row border p-2 shadow-md rounded-xl justify-between">
+        <div className="flex flex-row border p-2 shadow-md rounded-xl justify-between items-center">
             <label
                 htmlFor={`input${index}`}
-                className="w-4">
-                {index + 1}
+                className="w-4 text-center">
+                {`${index + 1})`}
             </label>
-            <input
-                type="text"
-                className="font-bold w-full mx-2 border border-gray-200"
-                id={`input${index}`}
-                value={currentInput}
-                placeholder={isInputAnswer ? 'Введите верный ответ, который нужно ввести' : 'Введите вариант ответа'}
-                onChange={handleInputChange}/>
-            {areMultipleCorrect ? (
-                <input
-                    type="checkbox"
-                    name={`checkbox${index}`}
-                />
-            ) : (
-                <input
-                    type="radio"
-                    name={`radio${index}`}
-                />
-            )}
+            <EditableMathField
+                className="w-full mx-2"
+                style={{ border: 0 }}
+                latex={currentInput ?? ""}
+                onChange={(mathfield) => handleInputChange(mathfield)}
+            />
+            {!isInputAnswer ? (
+                areMultipleCorrect ? (
+                    <input
+                        type="checkbox"
+                        name={`checkboxanswer`}
+                        onChange={handleCorrectChange}
+                        checked={checked}
+                    />
+                ) : (
+                    <input
+                        type="radio"
+                        name={`radioanswer`}
+                        id={`radioid${index}`}
+                        onChange={handleCorrectChange}
+                    />
+                )
+            ) : null}
         </div>
     );
 };

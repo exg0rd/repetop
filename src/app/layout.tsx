@@ -1,13 +1,13 @@
 import "./globals.css";
 import "highlight.js/styles/github.css";
 
-import { Comfortaa, Roboto_Slab } from "next/font/google";
+import { Noto_Serif, Roboto_Slab } from "next/font/google";
 import { Header } from "./components/Header";
 
 import { AppSidebar } from "./components/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-export const comforta = Comfortaa({
+export const comforta = Noto_Serif({
     weight: ["variable"],
     subsets: ["cyrillic"],
 });

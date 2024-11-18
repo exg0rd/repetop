@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 import { comforta } from "@/app/layout";
 import { Button } from "@/ui/button";
@@ -27,12 +27,14 @@ interface Props {
 
 export const Test: React.FC<Props> = ({ className }) => {
     const [questionIndex, setQuestionIndex] = useState(0);
+    const [testData, setTestData] = useState([])
 
-    const handleContinueCreatingTest = () => {
+    const handleContinueCreatingTest = (newQuestionData) => {
+        setTestData(prevData => [...prevData, newQuestionData]);
         setQuestionIndex(questionIndex + 1);
-    }
+    };
 
-    if (questionIndex > 0) return <TestQuestionCreate nextQuestionIndex={questionIndex}/>
+    if (questionIndex > 0) return <TestQuestionCreate nextQuestionIndex={questionIndex} handleContinue={handleContinueCreatingTest}/>
     return (
         <div
             className={cn(

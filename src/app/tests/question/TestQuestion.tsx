@@ -18,6 +18,7 @@ export interface QuestionProps {
     onNextQuestion: () => void;
     onPrevQuestion: () => void;
     questionDescription: string;
+    active: boolean;
 }
 
 export const TestQuestion: React.FC<QuestionProps> = ({
@@ -31,6 +32,7 @@ export const TestQuestion: React.FC<QuestionProps> = ({
     onPrevQuestion,
     answerNumber,
     questionDescription,
+    active
 }) => {
     return (
         <div
