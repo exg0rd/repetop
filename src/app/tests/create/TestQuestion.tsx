@@ -21,17 +21,10 @@ type questionState = {
     inputAnswers: boolean;
 
     answerTexts: string[];
+    correctAnswers: number[];
 }
 
 export const TestQuestionCreate: React.FC = ({nextQuestionIndex}) => {
-    // const [preview, setPreview] = useState(false);
-    // const [taskContent, setTaskContent] = useState("");
-    // const [resizeHeight, setResizeHeight] = useState(100);
-    // const [answerNumber, setAnswerNumber] = useState(0);
-    // const [selectStateOne, setSelectStateOne] = useState('');
-    // const [selectStateTwo, setSelectStateTwo] = useState('');
-    // const [answerTexts, setAnswerTexts] = useState([]);
-
     const [questionState, setQuestionState] = useState({
         index: nextQuestionIndex,
         preview: false,
@@ -40,7 +33,8 @@ export const TestQuestionCreate: React.FC = ({nextQuestionIndex}) => {
         answerNumber: 0,
         multipleAnswers: false,
         inputAnswers: false,
-        answerTexts: []
+        answerTexts: [],
+        correctAnswers: [],
     });
 
     const updateTaskContent = (content: string) => {
